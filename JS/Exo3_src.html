@@ -1,0 +1,63 @@
+﻿<!DOCTYPE HTML>
+<html lang="fr">
+	<head>
+		<title>Affichage sélectif d'information</title>
+		<meta charset="utf-8"/>
+		<script>
+			function init(){
+		 //var block=document.getElementsByTagName("p");
+		// block.style.display="none";
+		var par1=document.getElementById("par1");
+		var par2=document.getElementById("par2");
+		var par3=document.getElementById("par3");
+		
+		par1.style.display="none";
+		par2.style.display="none";
+		par3.style.display="none";
+
+		
+		var rien=document.getElementById("rien");
+	            value1.addEventListener("selected", afficher);
+				value2.addEventListener("selected", afficher);
+				value3.addEventListener("selected", afficher);
+				
+				
+			}
+
+			function afficher(){
+				if (this.id === "par1") {
+		               par1.style.display = "block";
+		               par2.style.display = "none";
+					   par3.style.display = "none";
+
+					} else if (this.id === "par2") {
+					   par1.style.display = "none";
+		               par2.style.display = "block";
+					   par3.style.display = "none";
+	                  }
+				else if(this.id === "par3"){
+                    par1.style.display = "none";
+		            par2.style.display = "none";
+					par3.style.display = "block";
+				}
+				else if(this.id== "rien"){
+					par1.style.display = "none";
+		            par2.style.display = "none";
+					par3.style.display = "none";
+				}
+			}
+			window.addEventListener("load", init);
+		</script>
+	</head>
+	<body>
+		<p id="par1">Paragraphe numéro 1</p>
+		<p id="par2">Paragraphe numéro 2</p>
+		<p id="par3">Paragraphe numéro 3</p>
+		<select id="block">
+			<option value="0">rien</option>
+			<option value="1">par1</option>
+			<option value="2">par2</option>
+			<option value="3">par3</option>
+		</select>
+	</body>
+</html>

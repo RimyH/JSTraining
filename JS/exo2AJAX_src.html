@@ -1,0 +1,39 @@
+﻿<!DOCTYPE HTML>
+<html lang="fr">
+	<head>
+		<title>AJAX flickr</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+
+$(document).ready(function() {
+    $('#monBouton').click(function() {
+        
+        var tag = $('#photo').val(); 
+        var url = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + tag + "&tagmode=any&format=json&jsoncallback=?";
+        
+        $.getJSON(url, function(data) {
+            // Vide le conteneur d'images
+            $('#images').empty();
+        
+            var photos = data.items.slice(0, 5);
+
+            // Afficher les photos
+            $.each(photos, function(index, photo) {
+                var photoUrl = photo.media.m;
+                var photoTitle = photo.title;
+                var $img = $('<img>').attr('src', photoUrl).attr('alt', photoTitle);
+                $('#images').append($img);
+            });
+        });
+    });
+});
+
+		</script>
+	</head>
+	<body>
+        <label>Une Ville</label>
+	<input type="text" id="photo">
+	<button type="button" id="monBouton" >Submit</button>
+		<div id="images" style="height: 300px"></div>
+	</body>
+</html>

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE HTML>
+<html lang="fr">
+	<head>
+		<title>AJAX random.org</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>         
+       /*$(document).ready(function() {
+            $("#randomForm").on("submit", function(event) {
+                event.preventDefault(); // Empêcher la soumission du formulaire par défaut
+                get();
+            });
+        });*/
+
+		$(document).ready(function() {
+            $("[value='RANDOM']").on("click", function() {
+                event.preventDefault(); // Empêcher le comportement par défaut du bouton
+                get();
+            });
+        });
+		
+
+        function get(){
+            let min = $("#min").val();
+            let max = $("#max").val();
+            let url = "https://www.random.org/integers/";
+            
+            $.ajax({
+                url: url,
+                type: "GET",
+
+                data: {
+                    num: 1,
+                    min: min,
+                    max: max,
+                    col: 1,
+                    base: 10,
+                    format: "plain",
+                    rnd: "new"
+                },
+
+
+                success: function(resultat) {
+                    //display(resultat);
+                    // Déterminer si le nombre est pair ou impair
+                    let isEven = (resultat % 2 === 0) ? "Pair" : "Impair";
+                    $("#message").text(resultat + "Ce nombre est : " + isEven);
+
+                },
+
+
+                error: function() {
+					alert("PB reseau !");
+                }
+            });
+        }
+/*
+        function display(resultat){
+            // Déterminer si le nombre est pair ou impair
+            let isEven = (resultat % 2 === 0) ? "Pair" : "Impair";
+			$("#message").text(resultat + "Ce nombre est : " + isEven);
+            
+        }*/
+
+		</script>
+	</head>
+	<body>
+		<h1>Formulaire réagissant au bouton de soumission</h1>
+		<form name="randomForm" id="randomForm" method="" action="">
+			<label>MIN: </label>
+			<input type="text" name="min" id="min" value="1" />
+			<br/>
+			<br/>
+			<label>MAX: </label>
+			<input type="text" name="max" id="max" value="10" />
+			<br/>
+			<br/>
+			<input type="submit" value="RANDOM" />
+		</form>
+		<div id="message"></div>
+		
+	</body>
+</html>

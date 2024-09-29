@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Hopitaux 75 - Etape 1</title>
+		<style>
+			table { border-collapse: collapse; }
+			table, th, td { border: 1px solid black; text-align: center; } 
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+/*
+Utilise $.getJSON() pour charger le fichier JSON des établissements hospitaliers d'Ile-de-France.
+Stocke les résultats de la requête AJAX dans une variable globale hopitauxIDF.
+Filtre les établissements pour obtenir uniquement les Centres Hospitaliers Régionaux (C.H.R.) de la ville de Paris (numéro de département 75 et numéro de catégorie 101).
+Affiche le tableau filtré au format JSON lorsque le bouton "GO!" est cliqué.
+*/
+let hopitauxIDF = [];  // Stocke les données des établissements hospitaliers
+
+$(document).ready(function () {
+    let url = "http://localhost:8080/RI/hopitaux.json";
+
+    // Fonction pour charger les données 
+    function load(callback) {
+        $.getJSON(url, function (resultat) {
+            hopitauxIDF = resultat;
+            callback(); 
+        });
+    }
+
+    // Filtre de Paris (75 et 101)
+    function filtrerHopitauxParisCHR() {
+        const hopitaux75 = hopitauxIDF.filter(function (hopital) {
+            return hopital.fields.num_dept === 75 && hopital.fields.num_cat === 101;
+        });
+        //return hopitaux75;
+        const hopitaux75_1 = hopitaux75.map(function (hopital) {
+                    return {
+                        raison_sociale: hopital.fields.raison_sociale,
+                        adresse: hopital.fields.adresse_complete,
+                        cp_ville: hopital.fields.cp_ville,
+                        tel: hopital.fields.num_tel,
+                        latlng: [hopital.fields.lat, hopital.fields.lng]
+                    };
+                });
+
+                return hopitaux75_1;
+            }
+    
+
+    // Afficher les résultats en JSON
+    /*function afficherJSON(hopitaux) {
+        $('#maDIV').html('<pre>' + JSON.stringify(hopitaux, null, 2) + '</pre>');
+    }
+*/
+function afficherTable(hopitaux) {
+                let tableHtml = '<table><tr><th>Raison Sociale</th><th>Adresse</th><th>Code Postal Ville</th><th>Téléphone</th><th>Lat/Long</th></tr>';
+                hopitaux.forEach(function (hopital) {
+                    tableHtml += '<tr>';
+                    tableHtml += '<td>' + hopital.raison_sociale + '</td>';
+                    tableHtml += '<td>' + hopital.adresse + '</td>';
+                    tableHtml += '<td>' + hopital.cp_ville + '</td>';
+                    tableHtml += '<td>' + hopital.tel + '</td>';
+                    //tableHtml += '<td>' + hopital.latlng[0] + '</td>';
+                    //tableHtml += '<td>' + hopital.latlng[1] + '</td>';
+                    tableHtml += '<td>[' + hopital.latlng + ']</td>';
+                    tableHtml += '</tr>';
+                });
+                tableHtml += '</table>';
+                $('#maDIV').html(tableHtml);
+            }
+    // Action à effectuer lorsque le bouton est cliqué
+    $('#monBouton').on('click', function () {
+        load(function () {
+            const hopitauxFiltres = filtrerHopitauxParisCHR();
+            //afficherJSON(hopitauxFiltres);
+            afficherTable(hopitauxFiltres);
+        });
+    });
+});
+
+		</script>
+	</head>
+	<body>
+		<div id="maDIV"></div>
+		<button type="button" id="monBouton" >GO!</button>
+
+		
+	</body>
+</html>

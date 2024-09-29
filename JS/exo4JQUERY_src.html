@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Roll-Over</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+		const images = {
+                    chat: "images/chat.jpg",
+                    chien: "images/chien.jpg",
+                    lion: "images/lion.jpg",
+                    tigre: "images/tigre.jpg"
+                };
+          $(document).ready(function() {
+				
+				
+			
+				$(".uneImage").on("mouseover",f);
+				$(".uneImage").on("mouseout",g);
+
+			}
+			);
+function f(){
+
+				const thisImage = images[$(this).attr("id")];
+                    $("#photo").attr("src", thisImage);
+
+}
+function g(){
+	$("img").style.display = "none";
+}
+
+		</script>
+	</head>
+	<body>
+		<div style="display: inline-block; font-size:200%;">
+			<ul>
+				<li id="chat" class="uneImage">un chat</li>
+				<li id="chien" class="uneImage">un chien</li>
+				<li id="lion" class="uneImage">un lion</li>
+				<li id="tigre" class="uneImage">un tigre</li>
+			</ul>
+		</div>
+		<div style="display: inline-block; border: 3px solid black;">
+			<img src="images/chat.jpg" alt="une image" id="photo" height="150px"/>
+		</div>
+	</body>
+</html>
+

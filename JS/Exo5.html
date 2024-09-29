@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Décalage de l'ordre d'affichage d'images (via clavier et/ou via souris)</title>
+		<meta charset="utf-8" />
+		<script>
+ function init() {
+				var a=document.getElementById('img1') ;
+				var b=document.getElementById('img2') ;
+				var c=document.getElementById('img3') ;
+				var d=document.getElementById('img4') ;
+				var button=document.getElementsByTagName('button') ;
+
+				document.addEventListener("keydown",decendre_fleche) ; 
+				document.addEventListener("keydown",monter_fleche) ; 
+				
+				button[0].addEventListener("click",monter) ; 
+				button[1].addEventListener("click",decendre) ; 
+			
+			function monter () {
+
+				var tmp=""; 
+				tmp=a.src
+				a.src=b.src ; 
+				b.src=c.src ;
+				c.src=d.src ; 
+				d.src=tmp
+			}
+			function decendre () {
+				var tmp=""; 
+				tmp=d.src
+				d.src=c.src ; 
+				c.src=b.src ;
+				b.src=a.src ; 
+				a.src=tmp
+			}
+			 function decendre_fleche()
+			 {
+				if(event.keyCode==40)
+				{
+				decendre();
+				}
+			 }
+			 function monter_fleche()
+			 {
+				if (event.keyCode==38)
+				{
+				monter();
+				}
+			 }
+			}
+
+            window.addEventListener("load", init);
+		</script>
+	</head>
+	
+	<body>
+		<h1>Décalage de l'ordre d'affichage d'images (via clavier et/ou via souris)</h1>
+		
+		<div>
+			<img id="img1" src="images/chat.jpg" width="100" /><br />
+			<img id="img2" src="images/chien.jpg" width="100" /><br />
+			<img id="img3" src="images/tigre.jpg" width="100" /><br />
+			<img id="img4" src="images/lion.jpg" width="100" /><br />
+		</div>
+		
+		<button id="haut">^ vers le haut ^</button>
+		<button id="bas">v vers le bas v</button>
+	</body>
+</html>

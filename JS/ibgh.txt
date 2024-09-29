@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Jeu du devin</title>
+  <script>
+    let compteur;
+    let msg;
+    let nombreAleatoire;
+    let bouton;
+    let champSaisie;
+
+    function jouer() {
+      if (champSaisie.value === "" || isNaN(champSaisie.value)) {
+        msg.innerHTML = "Réponse non valide, il faut insérer un nombre ! <br> Le coup ne compte pas, il vous reste " + compteur + " essais. Nombre aléatoire : " + nombreAleatoire;
+      } else {
+        var nombreEntier = parseInt(champSaisie.value);
+
+        if (nombreEntier > 100 || nombreEntier < 1) {
+          compteur--;
+          msg.innerHTML = "Réponse non valide, il faut insérer un nombre entre 1 et 100 ! <br> Il vous reste " + compteur + " essais.";
+          msg.style.color = "black";
+        } else if (nombreEntier < nombreAleatoire) {
+          compteur--;
+          msg.innerHTML = "Trop petit <br> Il vous reste " + compteur + " essais.";
+          msg.style.color = "blue";
+        } else if (nombreEntier > nombreAleatoire) {
+          compteur--;
+          msg.innerHTML = "Trop grand ! <br> Il vous reste " + compteur + " essais.";
+          msg.style.color = "blue";
+        } else if (nombreAleatoire == nombreEntier) {
+          msg.innerHTML = "Gagné ! ";
+          msg.style.color = "green";
+          bouton.removeEventListener("click", jouer);
+          bouton.innerHTML = "Rejouer ?";
+          bouton.addEventListener("click", rejouer);
+        }
+      }
+
+      if (compteur == 0) {
+        msg.innerHTML = "Perdu ! " + compteur + " essais, la bonne valeur est : " + nombreAleatoire;
+        msg.style.color = "red";
+        bouton.removeEventListener("click", jouer);
+        bouton.innerHTML = "Rejouer ?";
+        bouton.addEventListener("click", rejouer);
+      }
+    }
+
+    function rejouer() {
+      nombreAleatoire = Math.floor(Math.random() * 100) + 1;
+      champSaisie.value = '';
+      msg.innerHTML = "";
+      bouton.innerHTML = "Valider";
+      compteur = 6;
+      bouton.removeEventListener("click", rejouer);
+      bouton.addEventListener("click", jouer);
+    }
+
+    function init() {
+      compteur = 6;
+      msg = document.getElementById('message');
+      nombreAleatoire = Math.floor(Math.random() * 100) + 1;
+      bouton = document.getElementById("valider");
+      champSaisie = document.getElementById("input");
+      // window.alert(nombreAleatoire);
+      bouton.addEventListener("click", jouer);
+    }
+  </script>
+</head>
+
+<body>
+  <h2>Jeu du Devin : Deviner un nombre entier compris entre 1 et 100</h2>
+  <h3>(On a le droit à 6 tentatives maximum)</h3>
+  <input type="text" id="input" value="" />
+  <button id="valider">Valider</button>
+  <div id="message"></div>
+  <script>
+    init();
+  </script>
+</body>
+
+</html>

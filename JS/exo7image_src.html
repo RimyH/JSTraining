@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<title>Petite animation en jQuery</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				
+			
+        $("#agr").on("click",f);
+        $("#dim").on("click",g);
+		update();
+		
+         });
+		 function f(){
+			$("img").animate({height: "700px",width: "700px"},2000,update);
+			//update();
+		 }
+		 function g(){
+			$("img").animate({height: "300px" ,width: "300px"},2000,update);
+			//update();
+		 }
+		 function update() {
+            $("#hauteur").text("Height : " + $("img").height());
+            $("#largeur").text("Largeur: " + $("img").width());
+		}
+
+		</script>
+	</head>
+	<body>
+		<h1>Petite animation en jQuery</h1> 
+		<div>
+			<img id="image" src="images/earth.png">
+		</div>
+		<button id="agr">Agrandir l'image</button>&nbsp;Hauteur:<span id="hauteur"></span>px&nbsp;
+		<button id="dim">Réduire l'image</button>&nbsp;Largeur:<span id="largeur"></span>px&nbsp;
+	</body>
+</html>	

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE HTML>
+<html lang="fr">
+	<head>
+		<title>Manipulation du DOM</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<style>
+			.bordure { border: 4px solid red; }
+		</style>
+		<script>
+			$(document).ready(function() {
+				$("img").on("mouseover",f);
+				$("img").on("mouseout",h);
+				$("button").on("click",g);
+			}
+			);
+			function f(){
+           $(this).addClass("bordure");
+			}
+			function h(){
+				//this.style.border = "none";
+				$(this).removeClass("bordure");
+				
+			}
+			function g(){
+			
+			$("img").slideToggle(500);
+			}
+
+		</script>
+	</head>
+	<body>
+		<img src="http://static.jquery.com/files/rocker/images/logo_jquery_215x53.gif" style="background-color:black"/>
+		<br/>
+		<br/>
+		<button>Cache-Cache</button>
+	</body>
+</html>
+

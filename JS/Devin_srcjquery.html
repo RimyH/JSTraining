@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Jeu du devin</title>
+	</head>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script>
+        var nombreMystere;
+        var tentatives = 0;
+        var tentativesMax = 6;
+        var input;
+        var validerBtn;
+        var messageDiv;
+
+        $(document).ready(function () {
+            initJeu();
+        });
+
+        function initJeu() {
+            input = $('#input');
+            validerBtn = $('#valider');
+            messageDiv = $('#message');
+
+            nombreMystere = genererNombreAleatoire(1, 100);
+            tentatives = 0;
+
+            afficherMessage("Devinez un nombre entre 1 et 100.");
+            validerBtn.text("Essayer").on('click', jouer);
+            // window.alert(nombreMystere);
+        }
+
+        function genererNombreAleatoire(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function jouer() {
+            var tentative = parseInt(input.val());
+            var inputValue = input.val();
+            // Convertir l'entrée en nombre
+            var jeDevine = parseFloat(inputValue);
+            // Vérifier si l'entrée n'est pas un nombre valide
+            if (isNaN(jeDevine) || jeDevine < 1 || jeDevine > 100) {
+                afficherMessage('Erreur, veuillez entrer un nombre valide entre 1 et 100.', 'black');
+                return;
+            }
+
+            tentatives++;
+
+            if (tentative === nombreMystere) {
+                afficherMessage("Gagné en " + tentatives + " tentatives !", 'green');
+                validerBtn.text("Rejouer").off('click').on('click', Rejouer);
+            } else {
+                if (tentatives === tentativesMax) {
+                    afficherMessage("Perdu. La solution était " + nombreMystere + ".", 'red');
+                    validerBtn.text("Rejouer").off('click').on('click', Rejouer);
+                } else {
+                    afficherMessage(tentative < nombreMystere ? "Trop Petit tentative numero :" + tentatives : "Trop Grand tentative numero :" + tentatives, 'blue');
+                }
+            }
+
+            input.val(""); // Effacer la saisie après chaque tentative
+        }
+
+        function Rejouer() {
+            validerBtn.off('click', Rejouer);
+            initJeu();
+        }
+
+        function afficherMessage(texte, couleur) {
+            messageDiv.text(texte);
+            messageDiv.css('color', couleur || 'black');
+        }
+    </script>
+
+	<body>
+		<h2> Jeu du Devin : Deviner un nombre entier compris entre 1 et 100</h2>
+		<h3> (On a le droit à 6 tentatives maximum)</h3>
+		<input type="text" id="input" value=""/>
+		<button id="valider">Essayer</button>
+		<div id="message"></div>
+	</body>
+</html>
